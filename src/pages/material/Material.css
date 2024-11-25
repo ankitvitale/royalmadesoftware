@@ -1,0 +1,82 @@
+/* Style the container */
+.materialwrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 12px;
+  width: 90%;
+  margin-left: 50px;
+}
+.materialwrapper h3 {
+  background-color: rgb(42, 157, 143);
+  color: #fff;
+  width: 100%;
+  text-align: center;
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  padding: 5px;
+}
+
+form {
+  background-color: #fff;
+  height: auto;
+  width: 100%;
+  font-family: "Lato", sans-serif;
+}
+
+.input-container {
+  position: relative;
+  margin: 20px 0;
+}
+
+/* Style the input field */
+.input-container input {
+  width: 100%;
+  padding: 10px;
+  padding-top: 20px; /* Add extra space for the label to move */
+  border: 1px solid #8b8b8bc9;
+  border-radius: 5px;
+  outline: none;
+  font-size: 16px;
+  opacity: .5;
+}
+.input-container input:hover{
+    opacity: 1;
+}
+/* Style the label */
+.input-container label {
+  position: absolute;
+  top: 12px;
+  left: 10px;
+  transition: 0.3s ease;
+  background: #fff;
+  padding: 0 5px;
+  color: #7b7878;
+  font-size: 16px;
+  pointer-events: none; /* Prevent label from interfering with click */
+}
+
+/* Move the label to the top when input is focused or has value */
+.input-container input:focus + label,
+.input-container input:not(:placeholder-shown) + label {
+  top: -8px;
+  font-size: 12px;
+  color: #333333;
+}
+.input-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 5px;
+}
+.input-btn button {
+  text-align: center;
+  padding: 9px;
+  border: 2px solid #00a64c;
+  color: #00a64c;
+  background-color: transparent;
+  border-radius: 3px;
+  font-weight: 500;
+  font-size: 21px;
+}

@@ -1,0 +1,14 @@
+.latters{
+    display: flex;
+    justify-content: space-evenly;
+    height: 180px;
+    align-items: center
+    ;
+}
+.latter{
+    height: 80px;
+    display: flex;align-items: center;
+    justify-content: center;
+    width: 150px;
+    box-shadow: 0 0 10px 1px gray;
+}
