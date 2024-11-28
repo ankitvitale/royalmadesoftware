@@ -5,9 +5,7 @@ import "./Lead.css";
 function Lead() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [leads, setLeads] = useState([]);
-  const [selectedLead, setSelectedLead] = useState(null);
-  const [step, setStep] = useState("New Leads");
-  const [process, setProcess] = useState(false);
+  const [currentProcessId, setCurrentProcessId] = useState(null);
 
   const steps = [
     "New Leads",
@@ -18,13 +16,8 @@ function Lead() {
     "Won",
   ];
 
-  const openPopup = () => {
-    setIsPopupOpen(true);
-  };
-
-  const closePopup = () => {
-    setIsPopupOpen(false);
-  };
+  const openPopup = () => setIsPopupOpen(true);
+  const closePopup = () => setIsPopupOpen(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -62,11 +55,10 @@ function Lead() {
     );
   };
 
-  function fnProcess(id) {
-    console.log(id);
-    setProcess(!process);
-  }
-  
+  const fnProcess = (id) => {
+    setCurrentProcessId((prevId) => (prevId === id ? null : id));
+  };
+
   return (
     <>
       <div className="leadwrapper">
@@ -74,14 +66,15 @@ function Lead() {
         <button onClick={openPopup}>
           <FaPlus color="white" /> Add New Lead
         </button>
-        {process && (
+        {currentProcessId && (
           <div className="steps">
             {steps.map((currentStep) => (
               <div key={currentStep} className="step">
                 <h2>{currentStep}</h2>
                 {leads
                   .filter(
-                    (lead) => lead.status !== "Won" && lead.step === currentStep
+                    (lead) =>
+                      lead.id === currentProcessId && lead.step === currentStep
                   )
                   .map((lead) => (
                     <div key={lead.id} className="lead">

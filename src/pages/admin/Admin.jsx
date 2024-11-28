@@ -47,6 +47,8 @@ function Admin() {
                      
                         <div className="hospital">
                         <hr className="sc-dntaoT fviECa" />
+                            <Link to=''>DashBoard</Link>
+                            <hr className="sc-dntaoT fviECa" />
                             <Link to=''>Lead Management</Link>
                             <hr className="sc-dntaoT fviECa" />
                             <Link to='flat'>Flat Management</Link>
