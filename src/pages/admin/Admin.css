@@ -8,6 +8,10 @@
     background-color: skyblue;
     box-shadow: 1px 1px 5px gainsboro;
   }
+  .dropdown-menu{
+    display: flex;
+    flex-direction: column;
+  }
   .header-icon img {
     width: 190px;
     object-fit: fill;

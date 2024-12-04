@@ -1,5 +1,4 @@
 .leadwrapper {
-  height: 300px;
   background-color: #f4f4f4;
   width: 100%;
   display: flex;
@@ -44,18 +43,11 @@
   font-weight: 700;
 }
 .popup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
-  opacity: 0;
-  animation: fadeIn 0.3s forwards;
+
   font-family: "Lato", sans-serif;
 }
 
@@ -139,7 +131,7 @@ form {
   display: block;
   margin: 10px 0 5px;
 }
-
+ 
 .popup-content input {
   width: 100%;
   padding: 8px;

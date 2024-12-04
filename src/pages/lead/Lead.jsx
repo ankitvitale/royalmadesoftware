@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import "./Lead.css";
 
@@ -16,27 +16,30 @@ function Lead() {
     "Won",
   ];
 
-  const openPopup = () => setIsPopupOpen(true);
-  const closePopup = () => setIsPopupOpen(false);
+  useEffect(() => {
+    const getAllLeads = async () => {
+      try {
+        const url = 'http://localhost:8080/getAllLeads';
+        const response = await fetch(url, {
+          method: 'GET',
+        });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const form = e.target;
-    const newLead = {
-      id: Date.now(),
-      firstName: form.firstName.value,
-      lastName: form.lastName.value,
-      jobTitle: form.jobTitle.value,
-      email: form.email.value,
-      phone: form.phone.value,
-      company: form.company.value,
-      step: "New Leads",
-      dates: { "New Leads": new Date().toLocaleDateString() },
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const leads = await response.json();
+        setLeads(leads);
+        console.log('Leads:', leads);
+        return leads; // Return or use the leads as needed
+      } catch (error) {
+        console.error('Error fetching leads:', error);
+      }
     };
-    setLeads([...leads, newLead]);
-    form.reset();
-    closePopup();
-  };
+
+    // Call the function
+    getAllLeads();
+  }, []);
 
   const handleStepChange = (leadId, newStep) => {
     setLeads((prevLeads) =>
@@ -44,7 +47,7 @@ function Lead() {
         lead.id === leadId
           ? {
               ...lead,
-              step: newStep,
+              step: newStep, // Update the 'step'
               dates: {
                 ...lead.dates,
                 [newStep]: new Date().toLocaleDateString(),
@@ -62,10 +65,7 @@ function Lead() {
   return (
     <>
       <div className="leadwrapper">
-        <h1>Lead Management Dashboard</h1>
-        <button onClick={openPopup}>
-          <FaPlus color="white" /> Add New Lead
-        </button>
+       
         {currentProcessId && (
           <div className="steps">
             {steps.map((currentStep) => (
@@ -74,12 +74,12 @@ function Lead() {
                 {leads
                   .filter(
                     (lead) =>
-                      lead.id === currentProcessId && lead.step === currentStep
+                      lead.id === currentProcessId && lead.step === currentStep // Filtering by currentProcessId and step
                   )
                   .map((lead) => (
                     <div key={lead.id} className="lead">
                       <p>
-                        {lead.firstName} {lead.lastName}
+                        {lead.name} {lead.lastName}
                       </p>
                       <select
                         value={lead.step}
@@ -111,7 +111,7 @@ function Lead() {
             <thead>
               <tr>
                 <th>First Name</th>
-                <th>Last Name</th>
+                <th>Date</th>
                 <th>Job Title</th>
                 <th>Email</th>
                 <th>Phone</th>
@@ -124,14 +124,14 @@ function Lead() {
             <tbody>
               {leads.map((lead) => (
                 <tr key={lead.id}>
-                  <td>{lead.firstName}</td>
-                  <td>{lead.lastName}</td>
+                  <td>{lead.name}</td>
+                  <td>{lead.foundOn}</td>
                   <td>{lead.jobTitle}</td>
                   <td>{lead.email}</td>
-                  <td>{lead.phone}</td>
-                  <td>{lead.company}</td>
-                  <td>{lead.step}</td>
-                  <td>{lead.dates["Won"]}</td>
+                  <td>{lead.phoneNumber}</td>
+                  <td>{lead.companyName}</td>
+                  <td>{lead.status}</td>
+                  <td>{'NA'}</td>
                   <td>
                     <button onClick={() => fnProcess(lead.id)}>Steps</button>
                   </td>
@@ -142,43 +142,7 @@ function Lead() {
         </div>
       </div>
 
-      {isPopupOpen && (
-        <div className="popup">
-          <div className="popup-content">
-            <h2>Add New Lead</h2>
-            <form onSubmit={handleSubmit}>
-              <div className="input-containerr">
-                <input type="text" name="firstName" placeholder=" " required />
-                <label>First Name</label>
-              </div>
-              <div className="input-containerr">
-                <input type="text" name="lastName" placeholder=" " required />
-                <label>Last Name</label>
-              </div>
-              <div className="input-containerr">
-                <input type="text" name="jobTitle" placeholder=" " required />
-                <label>Job Title</label>
-              </div>
-              <div className="input-containerr">
-                <input type="email" name="email" placeholder=" " required />
-                <label>Email</label>
-              </div>
-              <div className="input-containerr">
-                <input type="text" name="phone" placeholder=" " required />
-                <label>Phone</label>
-              </div>
-              <div className="input-containerr">
-                <input type="text" name="company" placeholder=" " required />
-                <label>Company Name</label>
-              </div>
-              <button type="submit">Submit Lead</button>
-              <button type="button" onClick={closePopup}>
-                Cancel
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
+     
     </>
   );
 }

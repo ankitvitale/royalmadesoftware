@@ -35,12 +35,10 @@ function Customer() {
       <div className="materialwrapper">
         <h1>Customer Management System</h1>
         <div className="button-group">
-          <button onClick={() => setShowForm(true)}>Add Customer</button>
-          <button onClick={() => setShowForm(false)}>Customer List</button>
         </div>
 
         
-        {showForm ? (
+      
           <form onSubmit={handleAddCustomer}>
             <div className="input-container">
               <input type="text" name="customerName" placeholder=" " required />
@@ -102,38 +100,8 @@ function Customer() {
               <button type="submit">Add Customer</button>
             </div>
           </form>
-        ) : (
-          <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Address</th>
-                <th>Purchase</th>
-                <th>Agent Name</th>
-                <th>Date</th>
-                <th>Payment</th>
-                <th>Installment</th>
-              </tr>
-            </thead>
-            <tbody>
-              {customers.map((customer, index) => (
-                <tr key={index}>
-                  <td>{customer.name}</td>
-                  <td>{customer.email}</td>
-                  <td>{customer.phone}</td>
-                  <td>{customer.address}</td>
-                  <td>{customer.purchase}</td>
-                  <td>{customer.agentName}</td>
-                  <td>{customer.date}</td>
-                  <td>{customer.totalcost}</td>
-                  <td>{customer.installment}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
+         
+      
       </div>
     </>
   );

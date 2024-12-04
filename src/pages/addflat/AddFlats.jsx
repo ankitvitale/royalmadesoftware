@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 function Flat() {
   // State to control the view and store flat data
   const [showForm, setShowForm] = useState(true);
+    const [customers, setCustomers] = useState([]);
+
   const [flats, setFlats] = useState([]);
 
   // Handle form submission to add a new flat
@@ -23,6 +25,31 @@ function Flat() {
     form.reset(); // Clear form after submission
     setShowForm(false); // Switch to Flat List view
   };
+
+
+  useEffect(() => {
+    const getAllCustomers = async () => {
+        try {
+            const url = "http://localhost:8080/allResidency";
+            const response = await fetch(url, {
+                method: "GET",
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            setCustomers(data);
+            console.log("Customers:", data);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
+
+    getAllCustomers();
+}, []);
+console.log(customers)
 
   return (
     <>
@@ -80,7 +107,7 @@ function Flat() {
             <thead>
               <tr>
                 <th>Flat Scheme Name</th>
-                <th>Address</th>
+                {/* <th>Address</th> */}
                 <th>Floor Number</th>
                 <th>Flat Number</th>
                 <th>Flat Type</th>
@@ -90,16 +117,16 @@ function Flat() {
               </tr>
             </thead>
             <tbody>
-              {flats.map((flat, index) => (
+              {customers.map((flat, index) => (
                 <tr key={index}>
-                  <td>{flat.flatSchemeName}</td>
-                  <td>{flat.address}</td>
+                  <td>{flat.name}</td>
+                  {/* <td>{flat.address}</td> */}
                   <td>{flat.floorNumber}</td>
-                  <td>{flat.flatNumber}</td>
+                  <td>{flat.identifier}</td>
                   <td>{flat.flatType}</td>
                   <td>{flat.flatArea}</td>
-                  <td>{flat.flatAmount}</td>
-                  <td>{flat.flatStatus}</td>
+                  <td>{flat.price}</td>
+                  <td>{flat.availabilityStatus}</td>
                 </tr>
               ))}
             </tbody>

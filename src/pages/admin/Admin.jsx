@@ -2,22 +2,30 @@ import React, { useState } from "react";
 import "./Admin.css";
 import logo from "../../assets/royal.png";
 import { Link, Outlet } from "react-router-dom";
-import { FaHeart, FaHospital, FaUser, FaBars } from "react-icons/fa";
-import { FaTicket } from "react-icons/fa6";
-import Aadi from "../../components/header/aadi";
+import { FaBars, FaPlus } from "react-icons/fa";
 import { RiCloseFill } from "react-icons/ri";
 
 function Admin() {
   const [icon, setIcon] = useState(false);
-  const [DropdownOpen, setIsDropdownOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState({
+    leadManagement: false,
+    flatManagement: false,
+    landManagement: false,
+    customerDetails: false,
+    materialManagement: false,
+    latter: false,
+  });
 
-  const isDropdownOpen = () => {
-    setIsDropdownOpen(!DropdownOpen);
+  const toggleDropdown = (section) => {
+    setDropdownOpen((prev) => ({
+      ...prev,
+      [section]: !prev[section],
+    }));
   };
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    // window.lo cation.href = '/login';
+    // window.location.href = '/login';
   };
 
   return (
@@ -26,27 +34,16 @@ function Admin() {
         <div className="header-icon">
           <img src={logo} alt="" />
         </div>
-
-        {/* <div className="admin-logo">
-                    <h5 onClick={() => isDropdownOpen()}><FaUser /> Admin@gmail.com</h5>
-                    {DropdownOpen && (
-                        <div className="dropdown-menu">
-
-                            <button className='td' onClick={handleLogout}>Logout</button> 
-
-                        </div>
-                    )}
-        </div> */}
-
         <div
           className="hidden"
           onClick={() => {
             setIcon(!icon);
           }}
         >
-          {icon ? <RiCloseFill /> : <FaBars />}{" "}
+          {icon ? <RiCloseFill /> : <FaBars />}
         </div>
       </header>
+
       <aside>
         <div className="sidebar">
           <div className="items">
@@ -54,74 +51,114 @@ function Admin() {
               <hr className="sc-dntaoT fviECa" />
               <Link to="">DashBoard</Link>
               <hr className="sc-dntaoT fviECa" />
-              <Link to="">Lead Management</Link>
+              <div>
+                <Link
+                  to="#"
+                  onClick={() => toggleDropdown("leadManagement")}
+                >
+                  Lead Management
+                </Link>
+                {dropdownOpen.leadManagement && (
+                  <div className="dropdown-menu">
+                    <Link to="/addlead"> Add</Link>
+                    <Link to="">List</Link>
+                  </div>
+                )}
+              </div>
               <hr className="sc-dntaoT fviECa" />
-              <Link to="flat">Flat Management</Link>
+
+              <div>
+                <Link
+                  to="#"
+                  onClick={() => toggleDropdown("flatManagement")}
+                >
+                  Flat Management
+                </Link>
+                {dropdownOpen.flatManagement && (
+                  <div className="dropdown-menu">
+                    <Link to="/flat-management/add">Add</Link>
+                    <Link to="/flat-management/list">List</Link>
+                  </div>
+                )}
+              </div>
               <hr className="sc-dntaoT fviECa" />
-              <Link to="lands">Land Management</Link>
+
+              <div>
+                <Link
+                  to="#"
+                  onClick={() => toggleDropdown("landManagement")}
+                >
+                  Land Management
+                </Link>
+                {dropdownOpen.landManagement && (
+                  <div className="dropdown-menu">
+                    <Link to="lands">Add</Link>
+                    <Link to="landpurchase">List</Link>
+                  </div>
+                )}
+              </div>
               <hr className="sc-dntaoT fviECa" />
-              <Link to="customer">Customer Details</Link>
+
+              <div>
+                <Link
+                  to="#"
+                  onClick={() => toggleDropdown("customerDetails")}
+                >
+                  Customer Details
+                </Link>
+                {dropdownOpen.customerDetails && (
+                  <div className="dropdown-menu">
+                    <Link to="/customer">Add</Link>
+                    <Link to="/clist">List</Link>
+                  </div>
+                )}
+              </div>
               <hr className="sc-dntaoT fviECa" />
-              <Link to="material">Material Management</Link>
+
+              <div>
+                <Link
+                  to="#"
+                  onClick={() => toggleDropdown("materialManagement")}
+                >
+                  Material Management
+                </Link>
+                {dropdownOpen.materialManagement && (
+                  <div className="dropdown-menu">
+                    <Link to="/material-management/add">Add</Link>
+                    <Link to="/material-management/list">List</Link>
+                  </div>
+                )}
+              </div>
               <hr className="sc-dntaoT fviECa" />
-              <Link to="latter">Latter</Link>
+
+              <div>
+                <Link
+                  to="#"
+                  onClick={() => toggleDropdown("latter")}
+                >
+                  Latter
+                </Link>
+                {dropdownOpen.latter && (
+                  <div className="dropdown-menu">
+                    <Link to="/latter/add">Add</Link>
+                    <Link to="/latter/list">List</Link>
+                  </div>
+                )}
+              </div>
+              <hr className="sc-dntaoT fviECa" />
             </div>
           </div>
         </div>
+
         {icon && (
           <div className="items1">
             <div className="hospital">
-              <Link
-                to=""
-                onClick={() => {
-                  setIcon(!icon);
-                }}
-              >
-                Lead Management
-              </Link>
-              <Link
-                to="flat"
-                onClick={() => {
-                  setIcon(!icon);
-                }}
-              >
-                Flat Management
-              </Link>
-              <Link
-                to="lands"
-                onClick={() => {
-                  setIcon(!icon);
-                }}
-              >
-                Land Management
-              </Link>
-              <Link
-                to="customer"
-                onClick={() => {
-                  setIcon(!icon);
-                }}
-              >
-                Customer Details
-              </Link>
-              <Link
-                to="material"
-                onClick={() => {
-                  setIcon(!icon);
-                }}
-              >
-                Material Management
-              </Link>
-              <Link
-                to="latter"
-                onClick={() => {
-                  setIcon(!icon);
-                }}
-              >
-                Latter
-              </Link>
+              {/* Mobile view links */}
+              {/* Similar links as above can be added here for smaller screen */}
             </div>
           </div>
         )}
+
         <section>
           <Outlet />
         </section>

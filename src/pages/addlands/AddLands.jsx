@@ -1,16 +1,19 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
+import "./AddLand.css"
 function AddLand() {
   const [view, setView] = useState("form"); // Tracks the current view
   const [flats, setFlats] = useState([]);
   const [runningProjects, setRunningProjects] = useState([]);
   const [isPartnership, setIsPartnership] = useState(false); // New state to track partnership selection
 
+
+
+
   // Handle form submission to add a new flat
   const handleAddFlat = (e) => {
     e.preventDefault();
     const form = e.target;
-    const newFlat = {
+    const newFlat = { 
       purchaserName: form.purchaserName.value,
       address: form.address.value,
       owner: form.owner.value,
@@ -38,140 +41,110 @@ function AddLand() {
     setRunningProjects([...runningProjects, project]);
     alert("Project started successfully!");
   };
-
+console.log(flats)
   return (
     <div className="materialwrapper">
       <h1>Land Management System</h1>
       <div className="button-group">
         <button onClick={() => setView("form")}>Add Land</button>
-        <button onClick={() => setView("list")}>Land List</button>
         <button onClick={() => setView("projects")}>Running Projects</button>
       </div>
 
       {/* Conditional rendering for form, flat list, or running projects */}
       {view === "form" && (
-        <form onSubmit={handleAddFlat}>
-          <div className="input-container">
-            <input type="text" name="purchaserName" placeholder=" " required />
-            <label>Purchaser Name</label>
+          <form onSubmit={handleAddFlat} className="land-form">
+          <div className="form-grid">
+            <div className="input-container">
+              <input type="text" name="purchaserName" placeholder=" " required />
+              <label>Purchaser Name</label>
+            </div>
+            <div className="input-container">
+              <input type="text" name="address" placeholder=" " required />
+              <label>Address</label>
+            </div>
+            <div className="input-container">
+              <input type="text" name="owner" placeholder=" " required />
+              <label>Owner Name</label>
+            </div>
+            <div className="input-container">
+              <input type="text" name="area" placeholder=" " required />
+              <label>Area (sq. ft.)</label>
+            </div>
+            <div className="input-container">
+              <input type="text" name="totalAmount" placeholder=" " required />
+              <label>Total Amount</label>
+            </div>
+            <div className="input-container">
+              <input type="text" name="tokenAmount" placeholder=" " required />
+              <label>Token Amount</label>
+            </div>
+            <div className="input-container">
+              <input type="text" name="agreementAmount" placeholder=" " required />
+              <label>Agreement Amount</label>
+            </div>
+            <div className="input-container">
+              <input type="text" name="pincode" placeholder=" " required />
+              <label>Pincode</label>
+            </div>
+            <div className="input-container">
+              <input type="text" name="landmark" placeholder=" " required />
+              <label>Landmark</label>
+            </div>
+            <div className="input-container">
+              <input type="text" name="city" placeholder=" " required />
+              <label>City</label>
+            </div>
+            <div className="input-container">
+              <input type="text" name="state" placeholder=" " required />
+              <label>State</label>
+            </div>
+            <div className="input-container">
+              <input type="text" name="country" placeholder=" " required />
+              <label>Country</label>
+            </div>
+            <div className="input-container">
+              <select
+                name="purchaseType"
+                onChange={(e) => setIsPartnership(e.target.value === "Partnership")}
+                required
+              >
+                <option value="" disabled selected>
+                  Select Purchase Type
+                </option>
+                <option value="Individual">Individual</option>
+                <option value="Partnership">Partnership</option>
+              </select>
+            </div>
           </div>
-          <div className="input-container">
-            <input type="text" name="address" placeholder=" " required />
-            <label>Address</label>
-          </div>
-          <div className="input-container">
-            <input type="text" name="owner" placeholder=" " required />
-            <label>Owner Name</label>
-          </div>
-          <div className="input-container">
-            <input type="text" name="area" placeholder=" " required />
-            <label>Area (sq. ft.)</label>
-          </div>
-          <div className="input-container">
-            <input type="text" name="totalAmount" placeholder=" " required />
-            <label>Total Amount</label>
-          </div>
-          <div className="input-container">
-            <input type="text" name="tokenAmount" placeholder=" " required />
-            <label>Token Amount</label>
-          </div>
-          <div className="input-container">
-            <input type="text" name="arAmount" placeholder=" " required />
-            <label>Ar Amount</label>
-          </div>
-          <div className="input-container">
-            <input type="text" name="sAmount" placeholder=" " required />
-            <label>S Amount</label>
-          </div>
-
-          {/* Purchase Type selection */}
-          <div className="input-container">
-            <select
-              name="purchaseType"
-              onChange={(e) => setIsPartnership(e.target.value === "Partnership")}
-              required
-            >
-              <option value="" disabled selected>
-                Select Purchase Type
-              </option>
-              <option value="Individual">Individual</option>
-              <option value="Partnership">Partnership</option>
-            </select>
-          </div>
-
+          
           {/* Conditionally render Partner fields if Partnership is selected */}
           {isPartnership && (
-            <>
+            <div className="form-grid">
               <div className="input-container">
                 <input type="text" name="partnerName" placeholder=" " required />
                 <label>Partner Name</label>
               </div>
               <div className="input-container">
-                <input type="text" name="partnerNumber" placeholder=" " required />
+                <input type="text" name="partnerEmail" placeholder=" " required />
+                <label>Partner Email</label>
+              </div>
+              <div className="input-container">
+                <input type="text" name="partnerPhoneNumber" placeholder=" " required />
                 <label>Partner Phone Number</label>
               </div>
               <div className="input-container">
                 <input type="text" name="partnerAmount" placeholder=" " required />
                 <label>Partner Amount</label>
               </div>
-            </>
+            </div>
           )}
-
+          
           <div className="input-btn">
             <button type="submit">Add Land</button>
           </div>
         </form>
       )}
 
-      {view === "list" && (
-        <table>
-          <thead>
-            <tr>
-              <th>Purchaser Name</th>
-              <th>Address</th>
-              <th>Owner</th>
-              <th>Area (sq. ft.)</th>
-              <th>Total Amount</th>
-              <th>Token Amount</th>
-              <th>Ar Amount</th>
-              <th>S Amount</th>
-              <th>Purchase Type</th>
-              <th>Partner Name</th>
-              <th>Partner Phone</th>
-              <th>Partner Amount</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {flats.map((flat, index) => (
-              <tr key={index}>
-                <td>{flat.purchaserName}</td>
-                <td>{flat.address}</td>
-                <td>{flat.owner}</td>
-                <td>{flat.area}</td>
-                <td>{flat.totalAmount}</td>
-                <td>{flat.tokenAmount}</td>
-                <td>{flat.arAmount}</td>
-                <td>{flat.sAmount}</td>
-                <td>{flat.purchaseType}</td>
-                <td>{flat.partnerName || "N/A"}</td>
-                <td>{flat.partnerNumber || "N/A"}</td>
-                <td>{flat.partnerAmount || "N/A"}</td>
-                <td>
-                  <button
-                    onClick={() => {
-                      const projectName = prompt("Enter project name:");
-                      if (projectName) handleStartProject(index, projectName);
-                    }}
-                  >
-                    Start Project
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
 
       {view === "projects" && (
         <div>
