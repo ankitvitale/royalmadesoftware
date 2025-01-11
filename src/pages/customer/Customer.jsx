@@ -1,107 +1,260 @@
+// import React, { useState } from "react";
+// import "./Customer.css";
+// import axios from "axios";
+
+// function Customer() {
+//   const [name, setName] = useState("")
+//   const [number, setNumber] = useState("")
+//   const [email, setEmail] = useState("")
+//   const [address, setAddress] = useState("")
+//   const [adhar, setAdhar] = useState("")
+//   const [panNumber, setPanNumber] = useState("")
+//   const [agentName, setAgentName] = useState("")
+//   const [brockrage, setBrockrage] = useState("")
+
+//   // Handle form submission to add a new customer
+//   const handleAddCustomer = async (e) => {
+//     e.preventDefault();
+//     const obj = {
+//       name,
+//       phoneNumber: number,
+//       email,
+//       aadharNumber: adhar,
+//       agentName: agentName,
+//       brokerage: brockrage,
+//       address: address,
+//       panCard: panNumber
+
+//     }
+//     console.log(`my obj ${obj}`)
+//     try {
+//       const response = await axios.post("http://localhost:8080/addCustomer", {
+//         obj
+//       })
+//       console.log(response)
+//     } catch (error) {
+//       console.log(error)
+//     }
+
+//   };
+
+//   return (
+//     <>
+//       <div className="materialwrapper">
+//         <h1>Customer Management System</h1>
+//         <div className=" customer_button_group">
+//         </div>
+
+
+
+//         <form onSubmit={handleAddCustomer} className="customer_form">
+//           <div className="customer_input_container">
+//             <input type="text" name="customerName" placeholder=" " required value={name} onChange={(e) => setName(e.target.value)} />
+//             <label>Customer Name</label>
+//           </div>
+//           <div className="customer_input_container">
+//             <input type="email" name="customerEmail" placeholder=" " required value={email} onChange={(e) => setEmail(e.target.value)} />
+//             <label>Customer Email</label>
+//           </div>
+//           <div className="customer_input_container">
+//             <input type="number" name="phoneNumber" placeholder=" " required value={number} onChange={(e) => setNumber(e.target.value)} />
+//             <label>Phone Number</label>
+//           </div>
+//           <div className="customer_input_container">
+//             <input type="text" name="address" placeholder=" " required value={address} onChange={(e) => setAddress(e.target.value)} />
+//             <label>Address</label>
+//           </div>
+
+//           <div className="customer_input_container">
+//             <input type="text" name="agentName" placeholder=" " required value={agentName} onChange={(e) => setAgentName(e.target.value)} />
+//             <label>Agent Name</label>
+//           </div>
+//           <div className="customer_input_container">
+//             <input type="number" name="adharNumber" placeholder=" " required value={adhar} onChange={(e) => setAdhar(e.target.value)} />
+//             <label>Adhar Number</label>
+//           </div>
+//           <div className="customer_input_container">
+//             <input type="number" name="panNumber" placeholder=" " required value={panNumber} onChange={(e) => setPanNumber(e.target.value)} />
+//             <label>Pan Number</label>
+//           </div>
+//           <div className="customer_input_container">
+//             <input type="number" name="panNumber" placeholder=" " required value={brockrage} onChange={(e) => setBrockrage(e.target.value)} />
+//             <label>Brokerage </label>
+//           </div>
+
+//           <div className="customer_input_btn">
+//             <button type="submit">Add Customer</button>
+//           </div>
+//         </form>
+
+
+//       </div>
+//     </>
+//   );
+// }
+
+// export default Customer;
+
 import React, { useState } from "react";
 import "./Customer.css";
+import axios from "axios";
 
 function Customer() {
-  // State to control the view and store customer data
-  const [showForm, setShowForm] = useState(true);
-  const [customers, setCustomers] = useState([]);
- 
+  const [name, setName] = useState("");
+  const [number, setNumber] = useState("");
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [adhar, setAdhar] = useState("");
+  const [panNumber, setPanNumber] = useState("");
+  const [agentName, setAgentName] = useState("");
+  const [brokerage, setBrokerage] = useState("");
+
   // Handle form submission to add a new customer
-  const handleAddCustomer = (e) => {
+  const handleAddCustomer = async (e) => {
     e.preventDefault();
-    const form = e.target;
-    const newCustomer = {
-      name: form.customerName.value,
-      email: form.customerEmail.value,
-      phone: form.phoneNumber.value,
-      address: form.address.value,
-      purchase: form.purchase.value,
-      agentName: form.agentName.value,
-      agentcommision: form.agentcommision.value,
-      date: form.date.value,
-      totalcost: form.totalcost.value,
-      booking: form.booking.value,
-      arramt: form.arramt.value,
-      installment: form.installment.value,
-      other: form.other.value,
+
+    // Prepare the data object
+    const obj = {
+      name,
+      phoneNumber: number,
+      email,
+      aadharNumber: adhar,
+      address,
+      panCard: panNumber,
+      agentName,
+      brokerage,
     };
-    setCustomers([...customers, newCustomer]);
-    form.reset(); 
-    setShowForm(false); 
+
+    console.log("Sending data:", obj); // Debugging log
+    try {
+      // Sending the data to the backend
+      const response = await axios.post(
+        "http://localhost:8080/addCustomer",
+        obj
+      );
+      console.log("Response from server:", response.data);
+      alert("Customer added successfully!");
+      
+      // Optionally reset form fields after successful submission
+      setName("");
+      setNumber("");
+      setEmail("");
+      setAddress("");
+      setAdhar("");
+      setPanNumber("");
+      setAgentName("");
+      setBrokerage("");
+    } catch (error) {
+      console.error("Error adding customer:", error);
+      alert("Failed to add customer. Please try again.");
+    }
   };
 
   return (
     <>
       <div className="materialwrapper">
         <h1>Customer Management System</h1>
-        <div className="button-group">
-        </div>
+        <form onSubmit={handleAddCustomer} className="customer_form">
+          <div className="customer_input_container">
+            <input
+              type="text"
+              name="customerName"
+              placeholder=" "
+              required
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <label>Customer Name</label>
+          </div>
 
-        
-      
-          <form onSubmit={handleAddCustomer}>
-            <div className="input-container">
-              <input type="text" name="customerName" placeholder=" " required />
-              <label>Customer Name</label>
-            </div>
-            <div className="input-container">
-              <input type="email" name="customerEmail" placeholder=" " required />
-              <label>Customer Email</label>
-            </div>
-            <div className="input-container">
-              <input type="text" name="phoneNumber" placeholder=" " required />
-              <label>Phone Number</label>
-            </div>
-            <div className="input-container">
-              <input type="text" name="address" placeholder=" " required />
-              <label>Address</label>
-            </div>
-            <div className="input-container">
-              <input list="purchases" name="purchase" placeholder=" " required />
-              <label>Purchase</label>
-              <datalist id="purchases">
-                <option value="Flat" />
-                <option value="Land" />
-              </datalist>
-            </div>
-            <div className="input-container">
-              <input type="text" name="agentName" placeholder=" " required />
-              <label>Agent Name</label>
-            </div>
-            <div className="input-container">
-              <input type="text" name="agentcommision" placeholder=" " required />
-              <label>Agent Co.</label>
-            </div>
-            <div className="input-container">
-              <input type="date" name="date" placeholder=" " required />
-              <label>Date</label>
-            </div>
-            <div className="input-container">
-              <input type="text" name="totalcost" placeholder=" " required />
-              <label>Total Cost</label>
-            </div>
-            <div className="input-container">
-              <input type="text" name="booking" placeholder=" " required />
-              <label>Booking Amt.</label>
-            </div>
-            <div className="input-container">
-              <input type="text" name="arramt" placeholder=" " required />
-              <label>Arr. Amt.</label>
-            </div>
-            <div className="input-container">
-              <input type="text" name="installment" placeholder=" " required />
-              <label>Installment</label>
-            </div>
-            <div className="input-container">
-              <input type="text" name="other" placeholder=" " required />
-              <label>Other</label>
-            </div>
-            <div className="input-btn">
-              <button type="submit">Add Customer</button>
-            </div>
-          </form>
-         
-      
+          <div className="customer_input_container">
+            <input
+              type="email"
+              name="customerEmail"
+              placeholder=" "
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <label>Customer Email</label>
+          </div>
+
+          <div className="customer_input_container">
+            <input
+              type="number"
+              name="phoneNumber"
+              placeholder=" "
+              required
+              value={number}
+              onChange={(e) => setNumber(e.target.value)}
+            />
+            <label>Phone Number</label>
+          </div>
+
+          <div className="customer_input_container">
+            <input
+              type="text"
+              name="address"
+              placeholder=" "
+              required
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+            <label>Address</label>
+          </div>
+
+          <div className="customer_input_container">
+            <input
+              type="text"
+              name="agentName"
+              placeholder=" "
+              required
+              value={agentName}
+              onChange={(e) => setAgentName(e.target.value)}
+            />
+            <label>Agent Name</label>
+          </div>
+
+          <div className="customer_input_container">
+            <input
+              type="number"
+              name="aadharNumber"
+              placeholder=" "
+              required
+              value={adhar}
+              onChange={(e) => setAdhar(e.target.value)}
+            />
+            <label>Aadhar Number</label>
+          </div>
+
+          <div className="customer_input_container">
+            <input
+              type="text"
+              name="panCard"
+              placeholder=" "
+              required
+              value={panNumber}
+              onChange={(e) => setPanNumber(e.target.value)}
+            />
+            <label>Pan Card</label>
+          </div>
+
+          <div className="customer_input_container">
+            <input
+              type="number"
+              name="brokerage"
+              placeholder=" "
+              required
+              value={brokerage}
+              onChange={(e) => setBrokerage(e.target.value)}
+            />
+            <label>Brokerage</label>
+          </div>
+
+          <div className="customer_input_btn">
+            <button type="submit">Add Customer</button>
+          </div>
+        </form>
       </div>
     </>
   );

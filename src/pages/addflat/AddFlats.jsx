@@ -1,137 +1,163 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
-
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import './AddFlat.css'
+import { BsFillBuildingsFill } from "react-icons/bs";
 function Flat() {
-  // State to control the view and store flat data
-  const [showForm, setShowForm] = useState(true);
-    const [customers, setCustomers] = useState([]);
+  const { id } = useParams()
+  console.log(id)
 
-  const [flats, setFlats] = useState([]);
+  const [AddScheme, setAddScheme] = useState(false)
+  const [selectStatus, setSelectStatus] = useState("")
+  const [Schemename, setSchemeName] = useState("")
+  const token = JSON.parse(localStorage.getItem("employeROyalmadeLogin"))?.token;
+  const [myLand, setMyLand] = useState([])
+  const [showCount, setShowCount] = useState("")
+  const navigate = useNavigate()
+const [count ,setCount]=  ("0")
 
-  // Handle form submission to add a new flat
-  const handleAddFlat = (e) => {
-    e.preventDefault();
-    const form = e.target;
-    const newFlat = {
-      flatSchemeName: form.flatSchemeName.value,
-      address: form.address.value,
-      floorNumber: form.floorNumber.value,
-      flatNumber: form.flatNumber.value,
-      flatType: form.flatType.value,
-      flatArea: form.flatArea.value,
-      flatAmount: form.flatAmount.value,
-      flatStatus: 'Available', // Default status
-    };
-    setFlats([...flats, newFlat]);
-    form.reset(); // Clear form after submission
-    setShowForm(false); // Switch to Flat List view
-  };
+  function handlescheme(e) {
+    e.preventDefault()
+    setAddScheme(!AddScheme)
+  }
 
+  async function handleCreateScheme(e) {
+    e.preventDefault()
+    const obj = {
+      name: Schemename,
+      status: selectStatus,
+      landId: id
+    }
+    if (!id) {
+      return alert("project start from land")
+    }
+    try {
+      const reponse = await axios.post("http://localhost:8080/createProject", obj, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      })
+      console.log(reponse)
+      alert("add Scheme Successfully")
+      setAddScheme("")
+setCount(count+1)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   useEffect(() => {
-    const getAllCustomers = async () => {
-        try {
-            const url = "http://localhost:8080/allResidency";
-            const response = await fetch(url, {
-                method: "GET",
-            });
+    async function getLand() {
+      try {
+        const response = await axios.get("http://localhost:8080/getAllProjects", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
+        })
+        console.log(response)
+        setMyLand(response.data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getLand()
+  }, [count])
 
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
+  function handleclick(id,newname) {
+    console.log(id)
+    if (!id) {
+      return alert("Project has not started yet"); // Custom alert message
+    }
+    console.log(id);
+    navigate(`/flatlist/${id}`, { state: { newname } });
 
-            const data = await response.json();
-            setCustomers(data);
-            console.log("Customers:", data);
-        } catch (error) {
-            console.error("Error fetching data:", error);
-        }
-    };
+  }
 
-    getAllCustomers();
-}, []);
-console.log(customers)
+  useEffect(() => {
+    async function getingCount() {
+      try {
+        const reponse = await axios.get("http://localhost:8080/count", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
+          }
+        })
+        console.log(reponse.data)
+        setShowCount(reponse.data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
 
+    getingCount()
+  }, [])
   return (
     <>
       <div className="materialwrapper">
         <h1>Flat Scheme Management System</h1>
-        <div className="button-group">
-          <button onClick={() => setShowForm(true)}>Add Flat</button>
-          <button onClick={() => setShowForm(false)}>Flat List</button>
+        <p>{id}</p>
+        <form >
+          <div className="add_seheme_btn">
+            <button onClick={handlescheme} >Add Scheme</button>
+          </div>
+        </form>
+
+        {/* fetch All scheme */}
+        <div className="flatWrapper">
+          {
+            myLand.map((item, index) => {
+              const countData = showCount[item.id];
+              const availableCount = countData ? countData.AVAILABLE : 0;
+              const bookedCount = countData ? countData.BOOKED : 0;
+
+              return (
+                <div key={index} onClick={() => handleclick(item.id, item.name)} className="flatcontainer">
+                  <BsFillBuildingsFill size={80} color="rgb(6, 151, 177)" />
+                  <p>{item.name}</p>
+                  <p className="status">{item.status}</p>
+                  <div className="span">
+                    <span className="book">Booked <br /> {bookedCount || 0}</span>
+                    <span className="available">Available <br /> {availableCount || 0}</span>
+                  </div>
+                </div>
+              );
+            })
+          }
         </div>
 
-        {/* Conditional rendering for form or flat list */}
-        {showForm ? (
-          <form onSubmit={handleAddFlat}>
-            <div className="input-container">
-              <input type="text" name="flatSchemeName" placeholder=" " required />
-              <label>Flat Scheme Name</label>
-            </div>
-            <div className="input-container">
-              <input type="text" name="address" placeholder=" " required />
-              <label>Address</label>
-            </div>
-            <div className="input-container">
-              <input type="number" name="floorNumber" placeholder=" " required />
-              <label>Floor Number</label>
-            </div>
-            <div className="input-container">
-              <input type="text" name="flatNumber" placeholder=" " required />
-              <label>Flat Number</label>
-            </div>
-            <div className="input-container">
-              <input list="flatTypes" name="flatType" placeholder=" " required />
-              <label>Flat Type</label>
-              <datalist id="flatTypes">
-                <option value="1BHK" />
-                <option value="2BHK" />
-                <option value="3BHK" />
-                <option value="4BHK" />
-              </datalist>
-            </div>
-            <div className="input-container">
-              <input type="number" name="flatArea" placeholder=" " required />
-              <label>Flat Area/Carpet Area (sq ft)</label>
-            </div>
-            <div className="input-container">
-              <input type="number" name="flatAmount" placeholder=" " required />
-              <label>Flat Amount</label>
-            </div>
+        {/* Add Scheme Here */}
+        {
+          AddScheme && (
+            <>
+              <div className="AddSchemeForm" >
+                <button className="add_scheme_cross_button" onClick={() => setAddScheme(!AddScheme)}>X</button>
+                <form onSubmit={handleCreateScheme}>
+                  <div>
+                    <select name="" id="" value={selectStatus} onChange={(e) => setSelectStatus(e.target.value)}>
+                      <option value="">
+                        select
+                      </option>
+                      <option value="IN_PROGRESS">
+                        IN_PROGRESS
+                      </option>
+                      <option value="IN_PROGRESS">
+                        COMPLETE
+                      </option>
+                      <option value="IN_PROGRESS">
+                        INACTIVE
+                      </option>
+                    </select>
 
-            <div className="input-btn">
-              <button type="submit">Add Flat</button>
-            </div>
-          </form>
-        ) : (
-          <table>
-            <thead>
-              <tr>
-                <th>Flat Scheme Name</th>
-                {/* <th>Address</th> */}
-                <th>Floor Number</th>
-                <th>Flat Number</th>
-                <th>Flat Type</th>
-                <th>Flat Area</th>
-                <th>Flat Amount</th>
-                <th>Flat Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {customers.map((flat, index) => (
-                <tr key={index}>
-                  <td>{flat.name}</td>
-                  {/* <td>{flat.address}</td> */}
-                  <td>{flat.floorNumber}</td>
-                  <td>{flat.identifier}</td>
-                  <td>{flat.flatType}</td>
-                  <td>{flat.flatArea}</td>
-                  <td>{flat.price}</td>
-                  <td>{flat.availabilityStatus}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
+                    <input type="text" value={Schemename} onChange={(e) => setSchemeName(e.target.value)}  placeholder="Create Your Project"/>
+                  </div>
+                  <button>Create Scheme</button>
+                </form>
+
+              </div>
+            </>
+          )
+        }
       </div>
     </>
   );

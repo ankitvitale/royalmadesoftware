@@ -1,0 +1,931 @@
+.AddSchemeForm {
+  position: absolute;
+  top: 44%;
+  height: 200px;
+  width: 34%;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 0 10px 2px gray;
+  display: flex;
+  border-radius: 8px;
+  left: 50%;
+  flex-direction: column;
+}
+.add_scheme_cross_button {
+  width: 50px;
+  height: 50px;
+  background-color: red;
+  color: white;
+  border: none;
+  font-size: 23px;
+  cursor: pointer;
+}
+.AddSchemeForm form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+.AddSchemeForm form input{
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.AddSchemeForm form select{
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.AddSchemeForm form button{
+    font-size: 16px;
+    background-color: #066a91;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.flatcontainer {
+    height: 250px;
+    width: 390px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    box-shadow: 0 0 7px 2px gray;
+    margin: 5px;
+    position: relative;
+    border-radius: 10px;
+    background: linear-gradient(250deg, #eaf5f4, #e8f2f6);
+    flex-direction: column;
+    cursor: pointer;
+}
+.status{
+    position: absolute;
+    top: 5px;
+    left: 15px;
+    background-color: orange;
+    color: white;
+  border-radius: 5px;
+  font-size: 12px;
+}
+.flatWrapper{
+    display: grid;
+    grid-template-columns: 1fr 1fr  1fr;
+    margin-left: 250px;
+    gap: 10px;
+}
+.book{
+  padding: 10px 20px;
+    border: 1px solid green;
+    color: green;
+}
+.span{
+    display: flex;
+    gap: 5px;
+}
+.available{
+    padding: 10px 20px;
+    border: 1px solid blue; 
+    color: blue; 
+}
+.add_flat_button {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 35px;
+  
+  cursor: pointer;
+}
+.add_flat_button button{
+height: 50px;
+width: 150px;
+background-color: green;
+color: white;
+font-size: 18px;
+border-radius: 10px;
+outline: none;
+border: none;
+cursor: pointer;
+
+}
+.add_flat_button_submit {
+  height: 35px;
+  width: 250px;
+  margin-left: 181px;
+}
+/* .flat_number_container {
+    background: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    height: auto;
+    width: 100%;
+    margin-left: 269px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+    margin-top: 80px;
+    justify-content: center;
+    align-items: center;
+    padding: 10px
+}
+.flat_number_container button{
+height: 50px;
+width: 150px;
+color: rgb(0, 0, 0);
+
+border: none;
+outline: none;
+cursor: pointer;
+font-size: 16px;
+} */
+
+
+/* ** */
+.flat_Detail_Container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0.3s, opacity 0.3s;
+  }
+  
+  .flat_Detail_Container.visible {
+    visibility: visible;
+    opacity: 1;
+  }
+  
+  .flat-detail-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    width: 400px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+    text-align: left;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  .flat-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  .flat-info p {
+    margin: 10px 0;
+    font-size: 0.95rem;
+    color: #555;
+  }
+  
+  .flat-info p strong {
+    color: #000;
+  }
+  
+  .singleflat_close_button{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: transparent;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #555;
+  }
+  
+  .singleflat_close_button:hover {
+    color: #000;
+  }
+  
+  .add-customer-button {
+    margin-top: 15px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+/*   
+  .add-customer-button:hover {
+    background-color: #0056b3;
+  } */
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Container for customer form */
+.add_customer_form {
+    max-width: 600px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    font-family: Arial, sans-serif;
+  }
+  
+  .add_customer_h3, .add_customer_h4 {
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .add_customer_label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .add_customer_input, .add_customer_select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    box-sizing: border-box;
+  }
+  
+  .add_customer_input:focus, 
+  .add_customer_select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }
+  
+  .add_customer_button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .close_cutomer_form_button {
+    /* position: absolute; */
+    top: 10px;
+    right: 10px;
+    background: red;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #ffffff;
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+  }
+  
+  .close_cutomer_form_button:hover {
+    color: #000;
+  }
+  
+  /* Form layout adjustments for small screens */
+  @media (max-width: 768px) {
+    .add_customer_form {
+      width: 90%;
+      padding: 20px;
+    }
+  
+    .add_customer_h3, .add_customer_h4 {
+      font-size: 1.2rem;
+    }
+  }
+  
+  .flat_number_container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+    margin-left: 250px;
+}
+  
+  .flat_box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 150px; /* Box width */
+    padding: 20px;
+    border: 2px solid #ddd;
+    border-radius: 12px; /* Rounded corners for box */
+    background-color: #f9f9f9; /* Light background color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .flat_box:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Elevated shadow on hover */
+  }
+  
+  .flat_number_label {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px; /* Space between label and buttons */
+    text-align: center;
+  }
+  
+  .available, .book {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-bottom: 10px; /* Space between buttons */
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .available {
+    background-color: #28a745; /* Green for available */
+  }
+  
+  .book {
+    background-color: #dc3545; /* Red for booked */
+  }
+  
+  .available:hover, .book:hover {
+    transform: scale(1.03);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .delete_flat {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #212529;
+    background-color: #ffc107; /* Yellow for delete */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .delete_flat:hover {
+    transform: scale(1.03);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Main container */
+
+  .AddFlatClose button {
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    border: none;
+    border: 1px solid green;
+    font-size: 18px;
+    margin-left: 450px;
+}
+.add_flat {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 0 auto;
+  flex-direction: column;
+  margin-top: 50px;
+}
+/* Form styles */
+.add_flat_form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Spacing between form elements */
+}
+
+/* Label styles */
+.add_flat_label {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333333; /* Darker text for contrast */
+  margin-bottom: 5px;
+}
+
+/* Input fields */
+.add_flat_input, 
+.add_flat_select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  color: #555;
+  outline: none;
+  transition: border-color 0.3s ease-in-out;
+  width: 100%;
+}
+
+
+
+/* Button styles */
+.add_flat_button {
+  color: #ffffff;
+  padding: 10px 15px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+
+
+/* Input for numbers */
+.add_flat_input[type="number"] {
+  -moz-appearance: textfield; /* Remove number input arrows for Firefox */
+}
+
+.add_flat_input::-webkit-inner-spin-button, 
+.add_flat_input::-webkit-outer-spin-button {
+  -webkit-appearance: none; /* Remove number input arrows for Chrome/Safari */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .add_flat {
+      padding: 15px;
+  }
+
+  .add_flat_form {
+      gap: 10px;
+  }
+
+  .add_flat_button {
+      font-size: 14px;
+      padding: 8px 12px;
+  }
+}
+
+/* flatower card desigen */
+
+.coustomer_view_button {
+  background-color: #00a64c;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+.add_seheme_btn{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+.add_seheme_btn button{
+  background: linear-gradient(250deg, #0dada5, #097aa5);
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 175px;
+}
+
+
+/* ************************************************* */
+
+/* General Body Styling */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f7fc;
+  color: #333;
+  padding: 20px;
+}
+
+/* Customer Data Card */
+.customer_data_card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 900px;
+  margin: 30px auto;
+}
+
+.customer_data_card h2 {
+  font-size: 2rem;
+  color: #333;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.customer_data_card h3 {
+  font-size: 1.5rem;
+  color: #007bff;
+  margin-bottom: 15px;
+}
+
+.customer_data_card p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.customer_data_card strong {
+  color: #333;
+  font-weight: bold;
+}
+
+/* Bank Details Form */
+.customer_bank_details_form_wrapper {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  /* max-width: 600px; */
+  margin: 30px auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 26%;
+  left: 40%;
+  width: 400px;
+}
+
+.customer_bank_details_form_wrapper form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.customer_bank_details_form_wrapper label {
+  font-weight: bold;
+  font-size: 1rem;
+  color: #333;
+}
+
+.customer_bank_details_form_wrapper input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  width: 100%;
+}
+
+.customer_bank_details_form_wrapper input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.bank_detail_submit_button {
+  text-align: center;
+}
+
+.customer_bank_details_form_wrapper button {
+  padding: 12px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.customer_bank_details_form_wrapper button:hover {
+  background-color: #0056b3;
+}
+
+
+/*    Add installment form css */
+
+.installment_form_wrapper {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #f9f9f9; /* Light background */
+  padding: 20px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  border-radius: 10px;
+  z-index: 1000; /* Ensure it's above other elements */
+  width: 100%;
+  max-width: 400px; /* Form won't exceed 400px width */
+}
+
+/* Close button for the form */
+.installment_form_close_button {
+  background: #ff4d4d; /* Red close button */
+  color: white;
+  border: none;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 5px 10px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease;
+}
+
+.installment_form_close_button:hover {
+  transform: scale(1.1); /* Slight zoom on hover */
+}
+
+/* Form container */
+.installment_form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Space between inputs */
+}
+
+/* Input fields */
+.installment_form_input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border 0.3s ease;
+}
+
+.installment_form_input:focus {
+  border: 1px solid #007bff; /* Highlight on focus */
+  outline: none;
+}
+
+/* Dropdown */
+.installment_form_select {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: white;
+  transition: border 0.3s ease;
+}
+
+.installment_form_select:focus {
+  border: 1px solid #007bff; /* Highlight on focus */
+  outline: none;
+}
+
+/* Submit button */
+.installment_form_submit_button {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  background: #007bff; /* Blue submit button */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.installment_form_submit_button:hover {
+  background: #0056b3; /* Darker blue on hover */
+}
+
+/* Responsive design */
+@media screen and (max-width: 768px) {
+  .installment_form_wrapper {
+    width: 90%; /* Adjust width for smaller screens */
+    max-width: none;
+    padding: 15px;
+  }
+
+  .installment_form_input,
+  .installment_form_select {
+    font-size: 14px; /* Smaller font for inputs */
+  }
+
+  .installment_form_submit_button {
+    font-size: 14px;
+    padding: 8px 15px;
+  }
+}
+/*   falt three bitton */
+.flat_owener_multi_button_wrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+
+}
+
+/*   show customer installment */
+.customer_final_slip_main_wrapper{
+  margin-left: 260px;
+}
+.customer_installment_card_wrapper {
+  width: 90%;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+/* 
+.customer_installment_card_close_button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  color: #007bff;
+  cursor: pointer;
+  font-weight: bold;
+} */
+
+.flat_owener_multi_button_wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-left: 250px;
+  flex-wrap: wrap;
+}
+
+.customer_installment_card_content {
+  color: #333;
+}
+
+.customer_installment_card_heading {
+  font-size: 20px;
+  color: #007bff;
+  margin-bottom: 10px;
+}
+
+.customer_installment_card_text {
+  font-size: 16px;
+  margin: 5px 0;
+}
+
+.customer_installment_card_text span {
+  font-weight: bold;
+  color: #007bff;
+}
+
+.customer_installment_card_table_wrapper {
+  margin-top: 20px;
+  overflow-x: auto;
+}
+
+.customer_installment_card_table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #f9f9f9;
+}
+
+.customer_installment_card_tr {
+  border-bottom: 1px solid #ddd;
+}
+
+.customer_installment_card_th,
+.customer_installment_card_td {
+  padding: 12px;
+  text-align: left;
+}
+
+.customer_installment_card_th {
+  background-color: #007bff;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.customer_installment_card_td {
+  font-size: 14px;
+}
+
+.customer_installment_card_remaining {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  margin-top: 20px;
+}
+
+.customer_installment_card_remaining span {
+  color: #ff4c4c;
+}
+
+
+/* Common styles for all buttons */
+
+/* Specific styles for each button */
+.AddBankAccount {
+  background-color: #4CAF50; /* Green */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.AddBankAccount:hover {
+  background-color: #45a049; /* Darker green on hover */
+  transform: scale(1.05);
+}
+
+.AddFlatInstallment {
+  background-color: #008CBA; /* Blue */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.AddFlatInstallment:hover {
+  background-color: #007bb5; /* Darker blue on hover */
+  transform: scale(1.05);
+}
+
+.CancleBooking {
+  background-color: #f44336; /* Red */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  
+}
+
+.CancleBooking:hover {
+  background-color: #d32f2f; /* Darker red on hover */
+  transform: scale(1.05);
+}
+
+.ShowCustomerInstallment {
+  background-color: #ff9800; /* Orange */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.ShowCustomerInstallment:hover {
+  background-color: #fb8c00; /* Darker orange on hover */
+  transform: scale(1.05);
+}
+
+.CustomerSlip {
+  background-color: #9c27b0; /* Purple */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.CustomerSlip:hover {
+  background-color: #7b1fa2; /* Darker purple on hover */
+  transform: scale(1.05);
+}
+
+
+

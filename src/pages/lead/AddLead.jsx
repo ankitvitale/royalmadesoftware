@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function AddLead() {
+function AddLead({ props }) {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   // Function to open and close the popup
@@ -49,18 +49,19 @@ function AddLead() {
   return (
     <>
       <div className="popup">
+
         <div className="popup-content">
           <h2>Add New Lead</h2>
+          <div className="closeAddlead" onClick={props}>
+            <button> X  </button>
+          </div>
           <form onSubmit={handleSubmit}>
             <div className="input-containerr">
               <input type="text" name="name" placeholder=" " required />
               <label>First Name</label>
             </div>
-            
-            <div className="input-containerr">
-              <input type="text" name="lastName" placeholder=" " required />
-              <label>Last Name</label>
-            </div>
+
+
             <div className="input-containerr">
               <input type="text" name="jobTitle" placeholder=" " required />
               <label>Job Title</label>
@@ -81,7 +82,7 @@ function AddLead() {
               <input type="date" name="foundOn" placeholder=" " required />
               <label>Found On</label>
             </div>
-            <button type="submit">Submit Lead</button>
+            <button type="submit" className='lead_button'>Submit Lead</button>
           </form>
         </div>
       </div>

@@ -1,183 +1,409 @@
-import React, { useEffect, useState } from "react";
-import "./AddLand.css"
+import React, { useState } from "react";
+import "./AddLand.css";
+import axios from "axios";
+
 function AddLand() {
-  const [view, setView] = useState("form"); // Tracks the current view
-  const [flats, setFlats] = useState([]);
-  const [runningProjects, setRunningProjects] = useState([]);
-  const [isPartnership, setIsPartnership] = useState(false); // New state to track partnership selection
+  // Owner Details
+  const [ownerName, setOwnerName] = useState("");
+  const [ownerPhone, setOwnerPhone] = useState("");
+  const [ownerEmail, setOwnerEmail] = useState("");
+  const [ownerAadhar, setOwnerAadhar] = useState("");
 
+  // Purchaser Details
+  const [purchaserName, setPurchaserName] = useState("");
+  const [purchaserPhone, setPurchaserPhone] = useState("");
+  const [purchaserEmail, setPurchaserEmail] = useState("");
+  const [purchaserAadhar, setPurchaserAadhar] = useState("");
 
+  // Property Details
+  const [area, setArea] = useState("");
+  const [tokenAmount, setTokenAmount] = useState("");
+  const [agreementAmount, setAgreementAmount] = useState("");
+  const [totalAmount, setTotalAmount] = useState("");
 
+  // Address Details
+  const [city, setCity] = useState("");
+  const [landmark, setLandmark] = useState("");
+  const [pincode, setPincode] = useState("");
+  const [country, setCountry] = useState("");
+  const [state, setState] = useState("");
+   const [khNumber,setkhNumber]= useState("")
+   const [PhNumber,setPhNumber]= useState("")
+   const [plotNumber,setPlotNumber]= useState("")
+   const [mauzaNumber,setMauzaNumber]= useState("")
+  // Partner Details
+  const [partners, setPartners] = useState([]);
 
-  // Handle form submission to add a new flat
-  const handleAddFlat = (e) => {
+  // Handle Add Partner
+  function handleAddPartner(e) {
     e.preventDefault();
-    const form = e.target;
-    const newFlat = { 
-      purchaserName: form.purchaserName.value,
-      address: form.address.value,
-      owner: form.owner.value,
-      area: form.area.value,
-      totalAmount: form.totalAmount.value,
-      tokenAmount: form.tokenAmount.value,
-      arAmount: form.arAmount.value,
-      sAmount: form.sAmount.value,
-      purchaseType: form.purchaseType.value,
-      partnerName: form.partnerName?.value || null,
-      partnerNumber: form.partnerNumber?.value || null,
-      partnerAmount: form.partnerAmount?.value || null,
+    setPartners([...partners, { name: "", email: "", phoneNumber: "", amount: "" }]);
+  }
+
+  // Handle Change for Partner Fields
+  function handlePartnerChange(index, field, value) {
+    const updatedPartners = partners.map((partner, i) =>
+      i === index ? { ...partner, [field]: value } : partner
+    );
+    setPartners(updatedPartners);
+  }
+
+  // Remove Partner
+  function handleRemovePartner(index) {
+    const updatedPartners = partners.filter((_, i) => i !== index);
+    setPartners(updatedPartners);
+  }
+
+  // Handle Submit
+  const token = JSON.parse(localStorage.getItem("employeROyalmadeLogin")) || [];
+  const myToken = token.token;
+  console.log(myToken)
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = {
+      area,
+      tokenAmount,
+      agreementAmount,
+      totalAmount,
+      address: {
+        city,
+        landmark,
+        pincode,
+        country,
+        state,
+        muza:mauzaNumber,
+        khno:khNumber,
+        phno:PhNumber,
+        plotno:plotNumber
+
+      },
+      owner: {
+        name: ownerName,
+        phoneNumber: ownerPhone,
+        address: ownerEmail,
+        aadharNumber: ownerAadhar,
+      },
+      purchaser: {
+        name: purchaserName,
+        phoneNumber: purchaserPhone,
+        address: purchaserEmail,
+        aadharNumber: purchaserAadhar,
+      },
+      partners, // partners array with partner data
     };
-    setFlats([...flats, newFlat]);
-    form.reset(); // Clear form after submission
-    setView("list"); // Switch to Flat List view
+
+    const token = JSON.parse(localStorage.getItem("employeROyalmadeLogin"))?.token;
+
+    if (!token) {
+      console.error("Token is missing");
+      return;
+    }
+
+    try {
+      const response = await axios.post("http://localhost:8080/create", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      console.log(response);
+      alert("Your Land is Successfully Added")
+    } catch (error) {
+      console.error("Error submitting form:", error.response?.data || error);
+    }
   };
 
-  // Handle starting a project for a flat
-  const handleStartProject = (flatIndex, projectName) => {
-    const project = {
-      flat: flats[flatIndex],
-      projectName,
-    };
-    setRunningProjects([...runningProjects, project]);
-    alert("Project started successfully!");
-  };
-console.log(flats)
   return (
-    <div className="materialwrapper">
-      <h1>Land Management System</h1>
-      <div className="button-group">
-        <button onClick={() => setView("form")}>Add Land</button>
-        <button onClick={() => setView("projects")}>Running Projects</button>
-      </div>
+    <>
+      <div className="Addland_form_container">
+        <h1 className="Addlandh1">Property Form</h1>
+        <form onSubmit={handleSubmit} className="addlandform">
+          {/* Owner Details */}
+          <h3>Owner Details</h3>
+          <div className="Add_land_form_group">
+            <label>Name:</label>
+            <input
+              type="text"
+              placeholder="Enter owner name"
+              value={ownerName}
+              onChange={(e) => setOwnerName(e.target.value)}
+            />
+          </div>
+          <div className="Add_land_form_group">
+            <label>Phone Number:</label>
+            <input
+              type="text"
+              placeholder="Enter phone number"
+              value={ownerPhone}
+              onChange={(e) => setOwnerPhone(e.target.value)}
+            />
+          </div>
+          <div className="Add_land_form_group">
+            <label>Address:</label>
+            <input
+              type="text"
+              placeholder="Enter Address"
+              value={ownerEmail}
+              onChange={(e) => setOwnerEmail(e.target.value)}
+            />
+          </div>
+          <div className="Add_land_form_group">
+            <label>Aadhar Number:</label>
+            <input
+              type="text"
+              placeholder="Enter Aadhar number"
+              value={ownerAadhar}
+              onChange={(e) => setOwnerAadhar(e.target.value)}
+            />
+          </div>
 
-      {/* Conditional rendering for form, flat list, or running projects */}
-      {view === "form" && (
-          <form onSubmit={handleAddFlat} className="land-form">
-          <div className="form-grid">
-            <div className="input-container">
-              <input type="text" name="purchaserName" placeholder=" " required />
-              <label>Purchaser Name</label>
-            </div>
-            <div className="input-container">
-              <input type="text" name="address" placeholder=" " required />
-              <label>Address</label>
-            </div>
-            <div className="input-container">
-              <input type="text" name="owner" placeholder=" " required />
-              <label>Owner Name</label>
-            </div>
-            <div className="input-container">
-              <input type="text" name="area" placeholder=" " required />
-              <label>Area (sq. ft.)</label>
-            </div>
-            <div className="input-container">
-              <input type="text" name="totalAmount" placeholder=" " required />
-              <label>Total Amount</label>
-            </div>
-            <div className="input-container">
-              <input type="text" name="tokenAmount" placeholder=" " required />
-              <label>Token Amount</label>
-            </div>
-            <div className="input-container">
-              <input type="text" name="agreementAmount" placeholder=" " required />
-              <label>Agreement Amount</label>
-            </div>
-            <div className="input-container">
-              <input type="text" name="pincode" placeholder=" " required />
-              <label>Pincode</label>
-            </div>
-            <div className="input-container">
-              <input type="text" name="landmark" placeholder=" " required />
-              <label>Landmark</label>
-            </div>
-            <div className="input-container">
-              <input type="text" name="city" placeholder=" " required />
-              <label>City</label>
-            </div>
-            <div className="input-container">
-              <input type="text" name="state" placeholder=" " required />
-              <label>State</label>
-            </div>
-            <div className="input-container">
-              <input type="text" name="country" placeholder=" " required />
-              <label>Country</label>
-            </div>
-            <div className="input-container">
-              <select
-                name="purchaseType"
-                onChange={(e) => setIsPartnership(e.target.value === "Partnership")}
-                required
-              >
-                <option value="" disabled selected>
-                  Select Purchase Type
-                </option>
-                <option value="Individual">Individual</option>
-                <option value="Partnership">Partnership</option>
-              </select>
-            </div>
+          {/* Purchaser Details */}
+          <h3>Purchaser Details</h3>
+          <div className="Add_land_form_group">
+            <label>Name:</label>
+            <input
+              type="text"
+              placeholder="Enter purchaser name"
+              value={purchaserName}
+              onChange={(e) => setPurchaserName(e.target.value)}
+            />
           </div>
-          
-          {/* Conditionally render Partner fields if Partnership is selected */}
-          {isPartnership && (
-            <div className="form-grid">
-              <div className="input-container">
-                <input type="text" name="partnerName" placeholder=" " required />
-                <label>Partner Name</label>
+          <div className="Add_land_form_group">
+            <label>Phone Number:</label>
+            <input
+              type="text"
+              placeholder="Enter phone number"
+              value={purchaserPhone}
+              onChange={(e) => setPurchaserPhone(e.target.value)}
+            />
+          </div>
+          <div className="Add_land_form_group">
+            <label>Address:</label>
+            <input
+              type="text"
+              placeholder="Enter Address"
+              value={purchaserEmail}
+              onChange={(e) => setPurchaserEmail(e.target.value)}
+            />
+          </div>
+          <div className="Add_land_form_group">
+            <label>Aadhar Number:</label>
+            <input
+              type="text"
+              placeholder="Enter Aadhar number"
+              value={purchaserAadhar}
+              onChange={(e) => setPurchaserAadhar(e.target.value)}
+            />
+          </div>
+
+          {/* Property Details */}
+          <h3>Property Details</h3>
+          <div className="Add_land_form_group">
+            <label>Area (sq ft):</label>
+            <input
+              type="number"
+              placeholder="Enter area"
+              value={area}
+              onChange={(e) => setArea(e.target.value)}
+            />
+          </div>
+          <div className="Add_land_form_group">
+            <label>Token Amount:</label>
+            <input
+              type="number"
+              placeholder="Enter token amount"
+              value={tokenAmount}
+              onChange={(e) => setTokenAmount(e.target.value)}
+            />
+          </div>
+          <div className="Add_land_form_group">
+            <label>Agreement Amount:</label>
+            <input
+              type="number"
+              placeholder="Enter agreement amount"
+              value={agreementAmount}
+              onChange={(e) => setAgreementAmount(e.target.value)}
+            />
+          </div>
+          <div className="Add_land_form_group">
+            <label>Total Amount:</label>
+            <input
+              type="number"
+              placeholder="Enter total amount"
+              value={totalAmount}
+              onChange={(e) => setTotalAmount(e.target.value)}
+            />
+          </div>
+
+          {/* Address Details */}
+          <h3>Address Details</h3>
+          <div className="Add_land_form_group">
+            <label>City:</label>
+            <input
+              type="text"
+              placeholder="Enter city"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+            />
+          </div>
+          <div className="Add_land_form_group">
+            <label>Mauza:</label>
+            <input
+              type="text"
+              placeholder="Enter city"
+           value={mauzaNumber}
+           onChange={(e)=>setMauzaNumber(e.target.value)}
+            />
+          </div>
+          <div className="Add_land_form_group">
+            <label>KH no:</label>
+            <input
+              type="text"
+              placeholder="Enter KH Number"
+            value={khNumber}
+            onChange={(e)=>setkhNumber(e.target.value)}
+            />
+          </div>
+          <div className="Add_land_form_group">
+            <label>PH No:</label>
+            <input
+              type="text"
+              placeholder="Enter PH Number"
+             value={PhNumber}
+             onChange={(e)=>setPhNumber(e.target.value)}
+            />
+          </div>
+          <div className="Add_land_form_group">
+            <label>Plot No:</label>
+            <input
+              type="text"
+              placeholder="Enter city"
+          value={plotNumber}
+          onChange={(e=>setPlotNumber(e.target.value))}
+            />
+          </div>
+          <div className="Add_land_form_group">
+            <label>Landmark:</label>
+            <input
+              type="text"
+              placeholder="Enter landmark"
+              value={landmark}
+              onChange={(e) => setLandmark(e.target.value)}
+            />
+          </div>
+          <div className="Add_land_form_group">
+            <label>Pincode:</label>
+            <input
+              type="text"
+              placeholder="Enter pincode"
+              value={pincode}
+              onChange={(e) => setPincode(e.target.value)}
+            />
+          </div>
+          <div className="Add_land_form_group">
+            <label>Country:</label>
+            <input
+              type="text"
+              placeholder="Enter country"
+              value={country}
+              onChange={(e) => setCountry(e.target.value)}
+            />
+          </div>
+          <div className="Add_land_form_group">
+            <label>State:</label>
+            <input
+              type="text"
+              placeholder="Enter state"
+              value={state}
+              onChange={(e) => setState(e.target.value)}
+            />
+          </div>
+
+          {/* Partner Details */}
+          <h3>Partner Details</h3>
+          <button onClick={handleAddPartner} className="add_partner_btn">Add Partner</button>
+          {partners.map((partner, index) => (
+            <div key={index} className="Addland_partner_section">
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <h4>Partner {index + 1}</h4>
+                <button
+                  type="button"
+                  className="remove-partner-btn"
+                  onClick={() => handleRemovePartner(index)}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    color: "red",
+                    cursor: "pointer",
+                    fontSize: "18px",
+                  }}
+                >
+                  ✖
+                </button>
               </div>
-              <div className="input-container">
-                <input type="text" name="partnerEmail" placeholder=" " required />
-                <label>Partner Email</label>
+              <div className="Add_land_form_group">
+                <label>Partner Name:</label>
+                <input
+                  type="text"
+                  placeholder="Enter partner name"
+                  value={partner.name}
+                  onChange={(e) =>
+                    handlePartnerChange(index, "name", e.target.value)
+                  }
+                />
               </div>
-              <div className="input-container">
-                <input type="text" name="partnerPhoneNumber" placeholder=" " required />
-                <label>Partner Phone Number</label>
+              <div className="Add_land_form_group">
+                <label>Address:</label>
+                <input
+                  type="text"
+                  placeholder="Enter Address"
+                  value={partner.city}
+                  onChange={(e) =>
+                    handlePartnerChange(index, "city", e.target.value)
+                  }
+                />
               </div>
-              <div className="input-container">
-                <input type="text" name="partnerAmount" placeholder=" " required />
-                <label>Partner Amount</label>
+              <div className="Add_land_form_group">
+                <label>Phone:</label>
+                <input type="number" 
+                placeholder="Enter Number"
+                value={partner.phoneNumber}
+                onChange={(e)=> handlePartnerChange(index ,"phoneNumber" ,e.target.value)}
+                />
+              </div>
+              <div className="Add_land_form_group">
+                <label>Amount:</label>
+                <input
+                  type="number"
+                  placeholder="Enter amount"
+                  value={partner.amount}
+                  onChange={(e) =>
+                    handlePartnerChange(index, "amount", e.target.value)
+                  }
+                />
+              </div>
+              <div className="Add_land_form_group">
+                <label>Date:</label>
+                <input
+                  type="date"
+                  placeholder="Enter amount"
+                  value={partner.paymentDate}
+                  onChange={(e) =>
+                    handlePartnerChange(index, "paymentDate", e.target.value)
+                  }
+                />
               </div>
             </div>
-          )}
-          
-          <div className="input-btn">
-            <button type="submit">Add Land</button>
-          </div>
+          ))}
+
+          <button className="Add_land_submit_button" type="submit">
+            Submit
+          </button>
         </form>
-      )}
-
-
-      {view === "projects" && (
-        <div>
-          <h2>Running Projects</h2>
-          {runningProjects.length > 0 ? (
-            <table>
-              <thead>
-                <tr>
-                  <th>Project Name</th>
-                  <th>Purchaser Name</th>
-                  <th>Address</th>
-                  <th>Owner</th>
-                  <th>Area (sq. ft.)</th>
-                </tr>
-              </thead>
-              <tbody>
-                {runningProjects.map((project, index) => (
-                  <tr key={index}>
-                    <td>{project.projectName}</td>
-                    <td>{project.flat.purchaserName}</td>
-                    <td>{project.flat.address}</td>
-                    <td>{project.flat.owner}</td>
-                    <td>{project.flat.area}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          ) : (
-            <p>No running projects yet.</p>
-          )}
-        </div>
-      )}
-    </div>
+      </div>
+    </>
   );
 }
 

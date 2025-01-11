@@ -1,97 +1,327 @@
-.table-container table {
-  width: 100%;
-  border-collapse: collapse;
+.Addland_form_container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f7f9fc;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
 }
 
-.table-container thead {
-  position: sticky;
-  top: 0;
-  background-color: #f4f4f4; /* Header background color */
-  z-index: 1;
+h1, h3 {
+  text-align: center;
+  color: #333;
 }
- 
-.table-container th, td {
+
+.addlandform {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.Add_land_form_group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.Add_land_form_group label {
+  font-weight: bold;
+  color: #555;
+}
+
+.Add_land_form_group input {
   padding: 10px;
-  text-align: left;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+ .Add_land_form_group input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.Addland_partner_section {
   border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 6px;
+  background-color: #fff;
 }
 
-.table-container tbody {
-  max-height: 300px; /* Adjust based on your preferred height */
-  overflow-y: auto;
+.Addland_partner_section:not(:last-child) {
+  margin-bottom: 15px;
 }
 
-.table-container tbody tr {
-  /* display: table; */
-  width: 100%;
-  table-layout: fixed;
+.Add_land_submit_button {
+  padding: 12px 20px;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
-.table-container {
-  max-width: 100%;
-  overflow-x: auto; /* Horizontal scrolling for wide tables */
+.Add_land_submit_button:hover {
+  background-color: #0056b3;
 }
 
-.table-container table {
-  min-width: 100%; /* Ensures the table takes up the container's width */
-}
-
-.land-form {
-    width: 100%;
-    margin: 0 auto;
+@media (max-width: 600px) {
+  .Addland_form_container {
+    padding: 15px;
   }
-  
-  .form-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  }
-  
-  .input-container {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .input-container label {
-    position: absolute;
-    top: -20px;
-    left: 10px;
+
+  .Add_land_form_group   input {
     font-size: 12px;
-    color: gray;
-  }
-  
-  .input-container input, 
-  .input-container select {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    outline: none;
-  }
-  
-  .input-btn {
-    margin-top: 20px;
-    text-align: center;
-  }
-  
-  .input-btn button {
-    padding: 10px 20px;
-    font-size: 16px;
-    color: white;
-    background-color: #007bff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .input-btn button:hover {
-    background-color: #0056b3;
   }
 
-  @media (max-width: 768px) {
-    .form-grid {
-      grid-template-columns: 1fr;
-    }
+  .Add_land_submit_button {
+    font-size: 14px;
   }
-  
+}
+
+
+
+
+
+/* Card Container */
+.card-container {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #644848;
+  padding: 20px;
+  margin: 20px 0;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  margin-left: auto;
+  margin-right: auto;
+  position: absolute;
+  top: 200px;
+  left: 42%;
+  width: 500px;
+  color: white;
+}
+.card-container strong{
+  color: white;
+}
+/* Close Button */
+.card-close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+}
+
+.card-close-button:hover {
+  background-color: darkred;
+}
+
+/* Card Header */
+.card-header {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Card Content */
+.card-content {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+
+.landperches_wrapper{
+  margin-left: 250px;
+} 
+
+
+.addLandButton{
+  display: flex;
+  justify-content: end;
+}
+.addLandButton button {
+  margin-right: 50px;
+  height: 40px;
+  width: 130px;
+  cursor: pointer;
+  border-radius: 50px;
+  border: 2px solid #61b6ad;
+  background-color: #61b6ad;
+  color: white;
+}
+.add_land_search {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.add_land_search input {
+  height: 50px;
+  width: 400px;
+  margin-top: 35px;
+  margin-left: 233px;
+  border-radius: 50px;
+  outline: 2px solid #61b6ad;
+  border: none;
+  padding: 20px;
+}
+.add_land_edit_button{
+  background-color: green;
+  color: white;
+  border: none;
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+}
+.add_land_delete_button{
+  background-color: red;
+  color: white;
+  border: none;
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+}
+.mixed_button_add_land{
+  display: flex;
+  gap: 5px;
+}
+.add_land_show_button{
+  background-color: #e4e409;
+  color: white;
+  border: none;
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+}
+.add_land_start_button{
+  background-color: #015d96;;
+  color: white;
+  border: none;
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+}
+li{
+  list-style-type: none;
+}
+
+.add_partner_btn{
+  padding: 12px 20px;
+  background-color: #029290;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+
+}
+
+/* add patner form css start */
+
+
+/* Wrapper for the entire form card */
+.add_patner_payment_form_wrapper {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+  position: absolute;
+  left: 35%;
+  top: 37%;
+  width: 500px;
+}
+
+/* Heading for the form */
+.add_patner_payment_form_heading {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333333;
+}
+
+/* Close button container */
+.close_patner_payment_form {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Close button styles */
+.close_patner_payment_form p {
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  color: #ff4d4d;
+  transition: color 0.3s;
+}
+
+.close_patner_payment_form p:hover {
+  color: #d32f2f;
+}
+
+/* Form styling */
+.add_patner_payment_form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Input fields styling */
+.add_patner_payment_form_input {
+  width: 100%;
+  padding: 10px 15px;
+  font-size: 1rem;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  transition: border-color 0.3s;
+}
+
+.add_patner_payment_form_input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+/* Submit button styling */
+.add_patner_payment_form_submit_button {
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.add_patner_payment_form_submit_button:hover {
+  background-color: #0056b3;
+}
+.add_land_add_payment{
+  height: 50px;
+  width: 80px;
+  background-color: #029290;
+  color: white;
+  border: none;
+  padding: 5px;
+  border-radius: 50px;
+  cursor: pointer;
+}
+
+/*  add patner form css end  */
